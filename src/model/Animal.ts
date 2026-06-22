@@ -2,33 +2,47 @@ type Especie = "cachorro" | "gato" | "passaro" | "reptil";
 type Porte = "pequeno" | "medio" | "grande";
 
 export class Animal {
-  nome: string;
-  idade: number;
-  peso: number;
-  especie: string;
-  porte: string;
-  nomeDono: string;
-  telefoneDono: string;
-  cpfDono: string;
-
   constructor(
-    nome: string,
-    idade: number,
-    peso: number,
-    especie: string,
-    porte: string,
-    nomeDono: string,
-    telefoneDono: string,
-    cpfDono: string
-  ) {
-    this.nome = nome;
-    this.idade = idade;
-    this.peso = peso;
-    this.especie = especie;
-    this.porte = porte;
-    this.nomeDono = nomeDono;
-    this.telefoneDono = telefoneDono;
-    this.cpfDono = cpfDono;
+    private readonly nome: string,
+    private readonly idade: number,
+    private readonly peso: number,
+    private readonly especie: string,
+    private readonly porte: string,
+    private readonly nomeDono: string,
+    private readonly telefoneDono: string,
+    private readonly cpfDono: string
+  ) {}
+
+  getNome(): string {
+    return this.nome;
+  }
+
+  getIdade(): number {
+    return this.idade;
+  }
+
+  getPeso(): number {
+    return this.peso;
+  }
+
+  getEspecie(): string {
+    return this.especie;
+  }
+
+  getPorte(): string {
+    return this.porte;
+  }
+
+  getNomeDono(): string {
+    return this.nomeDono;
+  }
+
+  getTelefoneDono(): string {
+    return this.telefoneDono;
+  }
+
+  getCpfDono(): string {
+    return this.cpfDono;
   }
 
   getCategoriaVacina(): string {
@@ -46,7 +60,7 @@ export class Animal {
   imprimirFicha(): void {
     console.log("========== FICHA DO ANIMAL ==========");
     console.log("Nome   : " + this.nome);
-    console.log("Espécie: " + this.especie);
+    console.log("EspÃ©cie: " + this.especie);
     console.log("Porte  : " + this.porte);
     console.log("Peso   : " + this.peso + " kg");
     console.log("Idade  : " + this.idade + " anos");

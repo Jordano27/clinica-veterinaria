@@ -3,10 +3,30 @@ import { Consulta } from "../model/Consulta";
 import { Veterinario } from "../model/Veterinario";
 
 export class ClinicaService {
-  animais: Animal[] = [];
-  consultas: Consulta[] = [];
-  veterinarios: Veterinario[] = [];
-  proximoIdConsulta: number = 1;
+  private animais: Animal[] = [];
+  private consultas: Consulta[] = [];
+  private veterinarios: Veterinario[] = [];
+  private proximoIdConsulta: number = 1;
+
+  adicionarAnimal(animal: Animal): void {
+    this.animais.push(animal);
+  }
+
+  adicionarVeterinario(veterinario: Veterinario): void {
+    this.veterinarios.push(veterinario);
+  }
+
+  listarAnimais(): ReadonlyArray<Animal> {
+    return [...this.animais];
+  }
+
+  listarVeterinarios(): ReadonlyArray<Veterinario> {
+    return [...this.veterinarios];
+  }
+
+  listarConsultas(): ReadonlyArray<Consulta> {
+    return [...this.consultas];
+  }
 
   // -----------------------------------------------------------------------
   // AGENDAMENTO
@@ -17,14 +37,14 @@ export class ClinicaService {
     let vet: Veterinario | undefined;
 
     for (const a of this.animais) {
-      if (a.nome === nomeAnimal) {
+      if (a.getNome() === nomeAnimal) {
         animal = a;
         break;
       }
     }
 
     for (const v of this.veterinarios) {
-      if (v.nome === nomeVeterinario) {
+      if (v.getNome() === nomeVeterinario) {
         vet = v;
         break;
       }
@@ -38,7 +58,7 @@ export class ClinicaService {
       throw new Error("Veterinário não encontrado: " + nomeVeterinario);
     }
 
-    if (!vet.disponivel) {
+    if (!vet.estaDisponivel()) {
       throw new Error("Veterinário indisponível");
     }
 
@@ -60,12 +80,12 @@ export class ClinicaService {
 
   cancelarConsulta(id: number, motivo: string): void {
     for (const c of this.consultas) {
-      if (c.id === id) {
+      if (c.getId() === id) {
         c.cancelar(motivo);
 
         console.log(
           "SMS enviado para " +
-            c.animal.nomeDono +
+            c.getAnimal().getNomeDono() +
             ": sua consulta foi cancelada. Motivo: " +
             motivo
         );
@@ -85,7 +105,7 @@ export class ClinicaService {
 
     for (const c of this.consultas) {
       c.imprimirResumo();
-      if (c.pago) receita += c.valorConsulta;
+      if (c.isPago()) receita += c.getValorConsulta();
       total++;
     }
 
@@ -105,13 +125,13 @@ export class ClinicaService {
 
   calcularDesconto(c: Consulta): number {
     if (
-      c.animal.especie === "cachorro" &&
-      c.valorConsulta > 200
+      c.getAnimal().getEspecie() === "cachorro" &&
+      c.getValorConsulta() > 200
     ) {
-      return c.valorConsulta * 0.1;
+      return c.getValorConsulta() * 0.1;
     }
-    if (c.animal.especie === "gato") {
-      return c.valorConsulta * 0.05;
+    if (c.getAnimal().getEspecie() === "gato") {
+      return c.getValorConsulta() * 0.05;
     }
 
     return 0;
@@ -123,7 +143,7 @@ export class ClinicaService {
 
   buscarAnimal(nome: string): Animal | undefined {
     for (const a of this.animais) {
-      if (a.nome === nome) return a;
+      if (a.getNome() === nome) return a;
     }
 
     return undefined;
@@ -131,7 +151,7 @@ export class ClinicaService {
 
   buscarVeterinario(nome: string): Veterinario | undefined {
     for (const v of this.veterinarios) {
-      if (v.nome === nome) return v;
+      if (v.getNome() === nome) return v;
     }
     
     return undefined;

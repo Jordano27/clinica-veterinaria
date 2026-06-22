@@ -1,22 +1,17 @@
 import { Animal } from "./Animal";
 
 export class Consulta {
-  id: number;
-  animal: Animal;
-  veterinario: string;
-  dataHora: Date;
-  status: string;
-  motivoCancelamento?: string;
-  valorConsulta: number;
-  formaPagamento?: string;
-  pago: boolean;
+  private status: string;
+  private motivoCancelamento?: string;
+  private formaPagamento?: string;
+  private pago: boolean;
 
   constructor(
-    id: number,
-    animal: Animal,
-    veterinario: string,
-    dataHora: Date,
-    valorConsulta: number
+    private readonly id: number,
+    private readonly animal: Animal,
+    private readonly veterinario: string,
+    private readonly dataHora: Date,
+    private readonly valorConsulta: number
   ) {
     try {
       if (animal === null) throw new Error("animal nulo");
@@ -27,13 +22,44 @@ export class Consulta {
       console.log("Aviso: " + (e as Error).message);
     }
 
-    this.id = id;
-    this.animal = animal;
-    this.veterinario = veterinario;
-    this.dataHora = dataHora;
-    this.valorConsulta = valorConsulta;
     this.status = "agendada";
     this.pago = false;
+  }
+
+  getId(): number {
+    return this.id;
+  }
+
+  getAnimal(): Animal {
+    return this.animal;
+  }
+
+  getVeterinario(): string {
+    return this.veterinario;
+  }
+
+  getDataHora(): Date {
+    return this.dataHora;
+  }
+
+  getStatus(): string {
+    return this.status;
+  }
+
+  getMotivoCancelamento(): string | undefined {
+    return this.motivoCancelamento;
+  }
+
+  getValorConsulta(): number {
+    return this.valorConsulta;
+  }
+
+  getFormaPagamento(): string | undefined {
+    return this.formaPagamento;
+  }
+
+  isPago(): boolean {
+    return this.pago;
   }
 
   registrarPagamento(forma: string): void {
@@ -54,12 +80,16 @@ export class Consulta {
     this.motivoCancelamento = motivo;
   }
 
+  finalizar(): void {
+    this.status = "finalizada";
+  }
+
   imprimirResumo(): void {
     console.log(
       "[Consulta #" +
         this.id +
         "] " +
-        this.animal.nome +
+        this.animal.getNome() +
         " | Vet: " +
         this.veterinario +
         " | Status: " +

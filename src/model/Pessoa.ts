@@ -1,14 +1,25 @@
 export class Pessoa {
-  nome: string;
-  cpf: string;
-  telefone: string;
-  email: string;
+  constructor(
+    private readonly nome: string,
+    private readonly cpf: string,
+    private readonly telefone: string,
+    private readonly email: string
+  ) {}
 
-  constructor(nome: string, cpf: string, telefone: string, email: string) {
-    this.nome = nome;
-    this.cpf = cpf;
-    this.telefone = telefone;
-    this.email = email;
+  getNome(): string {
+    return this.nome;
+  }
+
+  getCpf(): string {
+    return this.cpf;
+  }
+
+  getTelefone(): string {
+    return this.telefone;
+  }
+
+  getEmail(): string {
+    return this.email;
   }
 
   static validarCPF(cpf: string): boolean {

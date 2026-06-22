@@ -1,40 +1,54 @@
+export class Medicamento {
+  constructor(
+    private readonly nome: string,
+    private readonly tipo: string,
+    private readonly preco: number,
+    private quantidade: number,
+    private readonly validade: string
+  ) {}
+
+  getNome(): string {
+    return this.nome;
+  }
+
+  getTipo(): string {
+    return this.tipo;
+  }
+
+  getPreco(): number {
+    return this.preco;
+  }
+
+  getQuantidade(): number {
+    return this.quantidade;
+  }
+
+  getValidade(): string {
+    return this.validade;
+  }
+
+  reduzirQuantidade(qtd: number): void {
+    this.quantidade -= qtd;
+  }
+}
+
 export class Estoque {
-  static Medicamento = class {
-    nome: string;
-    tipo: string;
-    preco: number;
-    quantidade: number;
-    validade: string;
+  static Medicamento = Medicamento;
 
-    constructor(
-      nome: string,
-      tipo: string,
-      preco: number,
-      quantidade: number,
-      validade: string
-    ) {
-      this.nome = nome;
-      this.tipo = tipo;
-      this.preco = preco;
-      this.quantidade = quantidade;
-      this.validade = validade;
-    }
-  };
+  private itens: Medicamento[] = [];
 
-  itens: InstanceType<typeof Estoque.Medicamento>[] = [];
-
-  adicionar(m: InstanceType<typeof Estoque.Medicamento>): void {
+  adicionar(m: Medicamento): void {
     this.itens.push(m);
   }
 
   darBaixa(nomeMedicamento: string, qtd: number): boolean {
     for (const m of this.itens) {
-      if (m.nome === nomeMedicamento) {
+      if (m.getNome() === nomeMedicamento) {
         try {
-          if (m.quantidade < qtd) {
+          if (m.getQuantidade() < qtd) {
             throw new Error("Estoque insuficiente");
           }
-          m.quantidade -= qtd;
+          m.reduzirQuantidade(qtd);
           return true;
         } catch (e) {
           return false;
@@ -45,31 +59,31 @@ export class Estoque {
     return false;
   }
 
-  getItens(): InstanceType<typeof Estoque.Medicamento>[] {
-    return this.itens;
+  getItens(): ReadonlyArray<Medicamento> {
+    return [...this.itens];
   }
 
   imprimirEstoque(): void {
     console.log("===== ESTOQUE =====");
     for (const m of this.itens) {
       console.log(
-        m.nome +
+        m.getNome() +
           " | " +
-          m.tipo +
+          m.getTipo() +
           " | Qtd: " +
-          m.quantidade +
+          m.getQuantidade() +
           " | Validade: " +
-          m.validade +
+          m.getValidade() +
           " | R$" +
-          m.preco
+          m.getPreco()
       );
     }
   }
 
   alertarEstoqueBaixo(): void {
     for (const m of this.itens) {
-      if (m.quantidade < 5) {
-        console.log("ALERTA: estoque baixo para " + m.nome);
+      if (m.getQuantidade() < 5) {
+        console.log("ALERTA: estoque baixo para " + m.getNome());
       }
     }
   }
