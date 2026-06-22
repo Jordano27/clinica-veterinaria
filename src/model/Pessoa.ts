@@ -5,6 +5,10 @@ export class Pessoa {
   email: string;
 
   constructor(nome: string, cpf: string, telefone: string, email: string) {
+    if (!Pessoa.validarCPF(cpf)) {
+      throw new Error("CPF inválido: " + cpf);
+    }
+
     this.nome = nome;
     this.cpf = cpf;
     this.telefone = telefone;
@@ -12,6 +16,6 @@ export class Pessoa {
   }
 
   static validarCPF(cpf: string): boolean {
-    return cpf !== null && cpf.length === 11;
+    return /^\d{11}$/.test(cpf);
   }
 }

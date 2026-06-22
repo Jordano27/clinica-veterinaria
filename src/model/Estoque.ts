@@ -28,21 +28,26 @@ export class Estoque {
   }
 
   darBaixa(nomeMedicamento: string, qtd: number): boolean {
+    if (nomeMedicamento.trim().length === 0) {
+      throw new Error("Nome do medicamento não pode ser vazio");
+    }
+
+    if (qtd <= 0) {
+      throw new Error("Quantidade deve ser maior que zero");
+    }
+
     for (const m of this.itens) {
       if (m.nome === nomeMedicamento) {
-        try {
-          if (m.quantidade < qtd) {
-            throw new Error("Estoque insuficiente");
-          }
-          m.quantidade -= qtd;
-          return true;
-        } catch (e) {
-          return false;
+        if (m.quantidade < qtd) {
+          throw new Error("Estoque insuficiente");
         }
+
+        m.quantidade -= qtd;
+        return true;
       }
     }
 
-    return false;
+    throw new Error("Medicamento não encontrado: " + nomeMedicamento);
   }
 
   getItens(): InstanceType<typeof Estoque.Medicamento>[] {
