@@ -1,4 +1,5 @@
 import { Animal } from "./Animal";
+import { EspecieAnimal, PorteAnimal } from "./Tipos";
 
 export class Gato extends Animal {
   ehCastrado: boolean;
@@ -14,7 +15,16 @@ export class Gato extends Animal {
     telefoneDono: string,
     cpfDono: string
   ) {
-    super(nome, idade, peso, "gato", "pequeno", nomeDono, telefoneDono, cpfDono);
+    super(
+      nome,
+      idade,
+      peso,
+      EspecieAnimal.Gato,
+      PorteAnimal.Pequeno,
+      nomeDono,
+      telefoneDono,
+      cpfDono
+    );
     this.ehCastrado = ehCastrado;
     this.pelagem = pelagem;
   }

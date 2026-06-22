@@ -1,12 +1,11 @@
-type Especie = "cachorro" | "gato" | "passaro" | "reptil";
-type Porte = "pequeno" | "medio" | "grande";
+import { EspecieAnimal, PorteAnimal } from "./Tipos";
 
 export class Animal {
   nome: string;
   idade: number;
   peso: number;
-  especie: string;
-  porte: string;
+  especie: EspecieAnimal;
+  porte: PorteAnimal;
   nomeDono: string;
   telefoneDono: string;
   cpfDono: string;
@@ -15,8 +14,8 @@ export class Animal {
     nome: string,
     idade: number,
     peso: number,
-    especie: string,
-    porte: string,
+    especie: EspecieAnimal,
+    porte: PorteAnimal,
     nomeDono: string,
     telefoneDono: string,
     cpfDono: string
@@ -32,11 +31,11 @@ export class Animal {
   }
 
   getCategoriaVacina(): string {
-    if (this.especie === "cachorro") {
-      if (this.porte === "pequeno") return "V8-pequeno";
-      if (this.porte === "medio") return "V8-medio";
+    if (this.especie === EspecieAnimal.Cachorro) {
+      if (this.porte === PorteAnimal.Pequeno) return "V8-pequeno";
+      if (this.porte === PorteAnimal.Medio) return "V8-medio";
       return "V10-grande";
-    } else if (this.especie === "gato") {
+    } else if (this.especie === EspecieAnimal.Gato) {
       return "V4-felino";
     }
 
@@ -46,7 +45,7 @@ export class Animal {
   imprimirFicha(): void {
     console.log("========== FICHA DO ANIMAL ==========");
     console.log("Nome   : " + this.nome);
-    console.log("Espécie: " + this.especie);
+    console.log("EspÃ©cie: " + this.especie);
     console.log("Porte  : " + this.porte);
     console.log("Peso   : " + this.peso + " kg");
     console.log("Idade  : " + this.idade + " anos");

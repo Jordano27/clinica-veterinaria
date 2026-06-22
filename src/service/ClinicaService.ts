@@ -1,5 +1,6 @@
 import { Animal } from "../model/Animal";
 import { Consulta } from "../model/Consulta";
+import { EspecieAnimal } from "../model/Tipos";
 import { Veterinario } from "../model/Veterinario";
 
 export class ClinicaService {
@@ -105,12 +106,12 @@ export class ClinicaService {
 
   calcularDesconto(c: Consulta): number {
     if (
-      c.animal.especie === "cachorro" &&
+      c.animal.especie === EspecieAnimal.Cachorro &&
       c.valorConsulta > 200
     ) {
       return c.valorConsulta * 0.1;
     }
-    if (c.animal.especie === "gato") {
+    if (c.animal.especie === EspecieAnimal.Gato) {
       return c.valorConsulta * 0.05;
     }
 

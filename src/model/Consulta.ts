@@ -1,14 +1,15 @@
 import { Animal } from "./Animal";
+import { FormaPagamento, StatusConsulta } from "./Tipos";
 
 export class Consulta {
   id: number;
   animal: Animal;
   veterinario: string;
   dataHora: Date;
-  status: string;
+  status: StatusConsulta;
   motivoCancelamento?: string;
   valorConsulta: number;
-  formaPagamento?: string;
+  formaPagamento?: FormaPagamento;
   pago: boolean;
 
   constructor(
@@ -32,15 +33,15 @@ export class Consulta {
     this.veterinario = veterinario;
     this.dataHora = dataHora;
     this.valorConsulta = valorConsulta;
-    this.status = "agendada";
+    this.status = StatusConsulta.Agendada;
     this.pago = false;
   }
 
-  registrarPagamento(forma: string): void {
+  registrarPagamento(forma: FormaPagamento): void {
     if (
-      forma === "pix" ||
-      forma === "cartao" ||
-      forma === "dinheiro"
+      forma === FormaPagamento.Pix ||
+      forma === FormaPagamento.Cartao ||
+      forma === FormaPagamento.Dinheiro
     ) {
       this.formaPagamento = forma;
       this.pago = true;
@@ -50,7 +51,7 @@ export class Consulta {
   }
 
   cancelar(motivo: string): void {
-    this.status = "cancelada";
+    this.status = StatusConsulta.Cancelada;
     this.motivoCancelamento = motivo;
   }
 
