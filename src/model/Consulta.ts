@@ -1,4 +1,5 @@
 import { Animal } from "./Animal";
+import { FormaPagamento, StatusConsulta } from "./Tipos";
 
 export class Consulta {
   id: number;
@@ -18,13 +19,16 @@ export class Consulta {
     dataHora: Date,
     valorConsulta: number
   ) {
-    try {
-      if (animal === null) throw new Error("animal nulo");
-      if (valorConsulta < 0) throw new Error("valor negativo");
-      if (veterinario === null || veterinario.length === 0)
-        throw new Error("sem veterinário");
-    } catch (e) {
-      console.log("Aviso: " + (e as Error).message);
+    if (animal == null) {
+      throw new Error("Animal não pode ser nulo");
+    }
+
+    if (veterinario == null || veterinario.trim().length === 0) {
+      throw new Error("Veterinário não pode ser vazio");
+    }
+
+    if (valorConsulta < 0) {
+      throw new Error("Valor da consulta não pode ser negativo");
     }
 
     this.id = id;
@@ -32,42 +36,34 @@ export class Consulta {
     this.veterinario = veterinario;
     this.dataHora = dataHora;
     this.valorConsulta = valorConsulta;
-    this.status = "agendada";
+    this.status = StatusConsulta.Agendada;
     this.pago = false;
   }
 
-  registrarPagamento(forma: string): void {
-    if (
-      forma === "pix" ||
-      forma === "cartao" ||
-      forma === "dinheiro"
-    ) {
-      this.formaPagamento = forma;
-      this.pago = true;
-    } else {
-      throw new Error("Forma de pagamento inválida: " + forma);
-    }
+  registrarPagamento(forma: FormaPagamento): void {
+    this.formaPagamento = forma;
+    this.pago = true;
   }
 
   cancelar(motivo: string): void {
-    this.status = "cancelada";
+    this.status = StatusConsulta.Cancelada;
     this.motivoCancelamento = motivo;
   }
 
-  imprimirResumo(): void {
-    console.log(
+  imprimirResumo(): string {
+    return (
       "[Consulta #" +
-        this.id +
-        "] " +
-        this.animal.nome +
-        " | Vet: " +
-        this.veterinario +
-        " | Status: " +
-        this.status +
-        " | Valor: R$" +
-        this.valorConsulta +
-        " | Pago: " +
-        (this.pago ? "Sim" : "Não")
+      this.id +
+      "] " +
+      this.animal.nome +
+      " | Vet: " +
+      this.veterinario +
+      " | Status: " +
+      this.status +
+      " | Valor: R$" +
+      this.valorConsulta +
+      " | Pago: " +
+      (this.pago ? "Sim" : "Não")
     );
   }
 }

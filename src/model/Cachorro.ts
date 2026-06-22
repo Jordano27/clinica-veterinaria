@@ -1,4 +1,5 @@
 import { Animal } from "./Animal";
+import { EspecieAnimal, PorteAnimal } from "./Tipos";
 
 export class Cachorro extends Animal {
   raca: string;
@@ -8,14 +9,23 @@ export class Cachorro extends Animal {
     nome: string,
     idade: number,
     peso: number,
-    porte: string,
+    porte: PorteAnimal,
     raca: string,
     vacinado: boolean,
     nomeDono: string,
     telefoneDono: string,
     cpfDono: string
   ) {
-    super(nome, idade, peso, "cachorro", porte, nomeDono, telefoneDono, cpfDono);
+    super(
+      nome,
+      idade,
+      peso,
+      EspecieAnimal.Cachorro,
+      porte,
+      nomeDono,
+      telefoneDono,
+      cpfDono
+    );
     this.raca = raca;
     this.vacinado = vacinado;
   }
@@ -24,9 +34,11 @@ export class Cachorro extends Animal {
     return super.getCategoriaVacina() + (this.vacinado ? "-reforco" : "-primaria");
   }
 
-  override imprimirFicha(): void {
-    super.imprimirFicha();
-    console.log("Raça   : " + this.raca);
-    console.log("Vacina : " + (this.vacinado ? "Em dia" : "Pendente"));
+  override imprimirFicha(): string {
+    return [
+      super.imprimirFicha(),
+      "Raça   : " + this.raca,
+      "Vacina : " + (this.vacinado ? "Em dia" : "Pendente"),
+    ].join("\n");
   }
 }

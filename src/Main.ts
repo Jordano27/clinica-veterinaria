@@ -4,6 +4,11 @@ import { Cachorro } from "./model/Cachorro";
 import { Gato } from "./model/Gato";
 import { Prontuario } from "./model/Prontuario";
 import { Estoque } from "./model/Estoque";
+import {
+  EspecialidadeVeterinario,
+  FormaPagamento,
+  PorteAnimal,
+} from "./model/Tipos";
 
 class Main {
   static main(): void {
@@ -16,7 +21,7 @@ class Main {
       "51999990001",
       "carlos@clinica.com",
       "CRMV-1234",
-      "clinico"
+      EspecialidadeVeterinario.Clinico
     );
     const v2 = new Veterinario(
       "Dra. Ana",
@@ -24,7 +29,7 @@ class Main {
       "51999990002",
       "ana@clinica.com",
       "CRMV-5678",
-      "cirurgiao"
+      EspecialidadeVeterinario.Cirurgiao
     );
 
     clinica.veterinarios.push(v1);
@@ -35,7 +40,7 @@ class Main {
       "Rex",
       3,
       12.5,
-      "grande",
+      PorteAnimal.Grande,
       "Labrador",
       false,
       "João Silva",
@@ -62,10 +67,10 @@ class Main {
     const c2 = clinica.agendarConsulta("Mimi", "Dra. Ana", new Date());
 
     // ---- Pagamento -------------------------------------------------------
-    c1.registrarPagamento("pix");
+    c1.registrarPagamento(FormaPagamento.Pix);
 
     try {
-      c2.registrarPagamento("Cartao");
+      c2.registrarPagamento(FormaPagamento.Cartao);
     } catch (e) {
       console.log("Erro no pagamento: " + (e as Error).message);
     }
@@ -79,7 +84,8 @@ class Main {
     p.diagnostico = "Otite leve";
     p.prescricao = "Antifúngico tópico";
     p.adicionarObservacao("Animal agitado durante consulta");
-    p.enviarEmail();
+    console.log(p.imprimir());
+    console.log(p.enviarEmail());
 
     // ---- Estoque ---------------------------------------------------------
     const estoque = new Estoque();
@@ -92,7 +98,9 @@ class Main {
     );
     estoque.adicionar(med);
 
-    estoque.alertarEstoqueBaixo();
+    for (const alerta of estoque.alertarEstoqueBaixo()) {
+      console.log(alerta);
+    }
 
     estoque.getItens().splice(0);
     console.log("Itens após clear externo: " + estoque.itens.length);

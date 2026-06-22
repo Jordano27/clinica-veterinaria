@@ -1,12 +1,12 @@
 import { Animal } from "./Animal";
 
 interface Registravel {
-  registrar(): void;
-  atualizar(): void;
-  deletar(): void;
-  imprimir(): void;
-  exportarCSV(): void;
-  enviarEmail(): void;
+  registrar(): string;
+  atualizar(): string;
+  deletar(): string;
+  imprimir(): string;
+  exportarCSV(): string;
+  enviarEmail(): string;
 }
 
 export class Prontuario implements Registravel {
@@ -25,36 +25,35 @@ export class Prontuario implements Registravel {
     this.peso = animal.peso;
   }
 
-  registrar(): void {
-    console.log("Prontuário #" + this.id + " registrado.");
+  registrar(): string {
+    return "Prontuário #" + this.id + " registrado.";
   }
 
-  atualizar(): void {
-    console.log("Prontuário atualizado.");
+  atualizar(): string {
+    return "Prontuário atualizado.";
   }
 
-  deletar(): void {
+  deletar(): string {
+    return "Prontuário #" + this.id + " removido.";
   }
 
-  imprimir(): void {
-    console.log(
+  imprimir(): string {
+    return (
       "Prontuário #" +
-        this.id +
-        " | Animal: " +
-        this.animal.nome +
-        " | Diagnóstico: " +
-        this.diagnostico
+      this.id +
+      " | Animal: " +
+      this.animal.nome +
+      " | Diagnóstico: " +
+      this.diagnostico
     );
   }
 
-  exportarCSV(): void {
-
+  exportarCSV(): string {
+    return "Prontuário #" + this.id + " exportado em CSV.";
   }
 
-  enviarEmail(): void {
-    console.log(
-      "Enviando prontuário por email para " + this.animal.nomeDono
-    );
+  enviarEmail(): string {
+    return "Enviando prontuário por email para " + this.animal.nomeDono;
   }
 
   adicionarObservacao(obs: string): void {

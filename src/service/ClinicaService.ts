@@ -1,5 +1,6 @@
 import { Animal } from "../model/Animal";
 import { Consulta } from "../model/Consulta";
+import { EspecieAnimal } from "../model/Tipos";
 import { Veterinario } from "../model/Veterinario";
 
 export class ClinicaService {
@@ -84,7 +85,7 @@ export class ClinicaService {
     let receita = 0;
 
     for (const c of this.consultas) {
-      c.imprimirResumo();
+      console.log(c.imprimirResumo());
       if (c.pago) receita += c.valorConsulta;
       total++;
     }
@@ -95,7 +96,7 @@ export class ClinicaService {
   gerarRelatorioAnimais(): void {
     console.log("===== ANIMAIS CADASTRADOS =====");
     for (const a of this.animais) {
-      a.imprimirFicha();
+      console.log(a.imprimirFicha());
     }
   }
 
@@ -105,12 +106,12 @@ export class ClinicaService {
 
   calcularDesconto(c: Consulta): number {
     if (
-      c.animal.especie === "cachorro" &&
+      c.animal.especie === EspecieAnimal.Cachorro &&
       c.valorConsulta > 200
     ) {
       return c.valorConsulta * 0.1;
     }
-    if (c.animal.especie === "gato") {
+    if (c.animal.especie === EspecieAnimal.Gato) {
       return c.valorConsulta * 0.05;
     }
 
